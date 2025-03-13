@@ -21,14 +21,19 @@ set(ament_dependencies
   geometry_msgs
 )
 
-# add_executable(simple_sub_node src/print_pose.cpp)
-# ament_target_dependencies(simple_sub_node ${ament_dependencies} )
+add_executable(coordinate_publisher src/coordinate_publisher.cpp)
+add_executable(weight_calculator src/weight_calculator.cpp)
+
+
+ament_target_dependencies(coordinate_publisher ${ament_dependencies} )
+ament_target_dependencies(weight_calculator ${ament_dependencies} )
 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
-# simple_sub_node
+coordinate_publisher
+weight_calculator
 DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

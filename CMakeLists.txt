@@ -22,18 +22,21 @@ set(ament_dependencies
 )
 
 add_executable(coordinate_publisher src/coordinate_publisher.cpp)
-add_executable(weight_calculator src/weight_calculator.cpp)
+add_executable(distance_calculator src/distance_calculator.cpp)
+add_executable(tsp_solver src/tsp_solver.cpp)
 
 
 ament_target_dependencies(coordinate_publisher ${ament_dependencies} )
-ament_target_dependencies(weight_calculator ${ament_dependencies} )
+ament_target_dependencies(distance_calculator ${ament_dependencies} )
+ament_target_dependencies(tsp_solver ${ament_dependencies} )
 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
 coordinate_publisher
-weight_calculator
+distance_calculator
+tsp_solver
 DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

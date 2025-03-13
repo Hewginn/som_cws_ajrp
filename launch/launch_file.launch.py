@@ -10,14 +10,12 @@ def generate_launch_description():
         ),
         Node(
             package='som_cws_ajrp',
-            executable='weight_calculator',
+            executable='distance_calculator',
             output='screen'
+        ),
+        Node(
+            package='som_cws_ajrp',
+            executable='tsp_solver',
+            output='screen',
         )
-        # Node(
-        #     package='som_cws_ajrp',
-        #     executable='simple_sub_node',
-        #     output='screen',
-        # ),
-
-        # first comment
     ])

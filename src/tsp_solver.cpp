@@ -84,7 +84,7 @@ class TspSolver : public rclcpp::Node
 
   void PrintSolution(std::vector<int> solution){
     RCLCPP_INFO(this->get_logger(), "Best order:");
-    std::string out = "\tStart (1. Coordinate)\t->\t";
+    std::string out = "\tStart (0. Coordinate)\t->\t";
 
     for(int i = 0; i < (int)solution.size(); i++){
       out += std::to_string(solution[i]) + ". Coordinate";

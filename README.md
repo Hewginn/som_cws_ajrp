@@ -1,6 +1,7 @@
 # `som_cws_ajrp` package
 ROS 2 C++ package.  [![Static Badge](https://img.shields.io/badge/ROS_2-Humble-34aec5)](https://docs.ros.org/en/humble/)
-A package 3 nodeból áll. Probléma: Koordináták leggyorsabb bejárása. Az első node /coordinate_publisher véletlen
+
+A package 3 nodeból áll. Probléma: Koordináták leggyorsabb bejárása. Az első node '/coordinate_publisher' véletlen
 3 dimenziós koordinátákat publikál egy std_msgs::int32multiarray("coordinates") topicba. Ezt fogadja a /distance_calculator
 node, ami kiszámítja a távolságokat a pontok között és továbbítja egy std_msgs::float32multiarray("distances") topicon keresztül.
 Végül egy /tsp_solver nevezetű node meg keresi egy Traveling Sales Man algoritmussal a pontok legkönnyebb bejárását,

@@ -1,5 +1,5 @@
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/float32_multi_array.hpp"
+#include "std_msgs/msg/int32_multi_array.hpp"
 
 using std::placeholders::_1;
 
@@ -8,7 +8,7 @@ class CoordinatePublisher : public rclcpp::Node
 public:
     CoordinatePublisher() : Node("coordinate_publisher")
     {
-        publisher_ = this->create_publisher<std_msgs::msg::Float32MultiArray>("coordinates", 10);
+        publisher_ = this->create_publisher<std_msgs::msg::Int32MultiArray>("coordinates", 10);
         timer_ = this->create_wall_timer(
             std::chrono::seconds(5),
             std::bind(&CoordinatePublisher::PublishMessage, this)
@@ -24,17 +24,17 @@ public:
 
 private:
 
-    void PrintCoordinates(std_msgs::msg::Float32MultiArray message){
+    void PrintCoordinates(std_msgs::msg::Int32MultiArray message){
         RCLCPP_INFO(this->get_logger(), "Published coordinates:");
         for(int i = 0; i < (int)message.layout.dim[0].size; i++){
             RCLCPP_INFO(this->get_logger(),
-            "\t%d Coordinate: [%f, %f, %f]", i+1, message.data[i*3], message.data[i*3+1], message.data[i*3+2]);
+            "\t%d Coordinate: [%d, %d, %d]", i+1, message.data[i*3], message.data[i*3+1], message.data[i*3+2]);
         }
     }
 
-    std_msgs::msg::Float32MultiArray GenerateMessage()
+    std_msgs::msg::Int32MultiArray GenerateMessage()
     {
-        auto message = std_msgs::msg::Float32MultiArray();
+        auto message = std_msgs::msg::Int32MultiArray();
 
         int num_coordinates = rand() % 8 + 3;
 
@@ -48,7 +48,7 @@ private:
         message.layout.dim[1].size = 3;  // number of dimensions
         message.layout.dim[1].stride = 3; // number of dimensions
 
-        std::vector<float> generated_coordinates;
+        std::vector<int> generated_coordinates;
 
         generated_coordinates.push_back(0);
         generated_coordinates.push_back(0);
@@ -63,7 +63,7 @@ private:
         return message;
     }
 
-    rclcpp::Publisher<std_msgs::msg::Float32MultiArray>::SharedPtr publisher_;
+    rclcpp::Publisher<std_msgs::msg::Int32MultiArray>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
 };
 

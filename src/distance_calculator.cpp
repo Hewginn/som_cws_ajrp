@@ -1,5 +1,6 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
+#include "std_msgs/msg/int32_multi_array.hpp"
 #include <vector>
 #include <array>
 #include <cmath>
@@ -11,7 +12,7 @@ class DistanceCalculator : public rclcpp::Node
 public:
     DistanceCalculator() : Node("distance_calculator")
     {
-        subscription_ = this->create_subscription<std_msgs::msg::Float32MultiArray>(
+        subscription_ = this->create_subscription<std_msgs::msg::Int32MultiArray>(
             "coordinates", 10, std::bind(&DistanceCalculator::GetCoordinate, this, _1)
         );
         publisher_ = this->create_publisher<std_msgs::msg::Float32MultiArray>("distances", 10);
@@ -19,19 +20,19 @@ public:
     }
 
 private:
-    void GetCoordinate(const std_msgs::msg::Float32MultiArray::SharedPtr msg)
+    void GetCoordinate(const std_msgs::msg::Int32MultiArray::SharedPtr msg)
     {
         size_t number_of_dimensions = msg->layout.dim[1].stride;
         size_t number_of_coordinates = msg->layout.dim[0].size;
 
-        std::vector<std::vector<float>> coordinates;
+        std::vector<std::vector<int>> coordinates;
 
         for (size_t i = 0; i < number_of_coordinates; i++)
         {
-            float x = msg->data[i * number_of_dimensions];
-            float y = msg->data[i * number_of_dimensions + 1];
-            float z = msg->data[i * number_of_dimensions + 2];
-            std::vector<float> coordinate = {x, y, z};
+            int x = msg->data[i * number_of_dimensions];
+            int y = msg->data[i * number_of_dimensions + 1];
+            int z = msg->data[i * number_of_dimensions + 2];
+            std::vector<int> coordinate = {x, y, z};
             coordinates.push_back(coordinate);
         }
         PublishDistances(coordinates);
@@ -52,7 +53,7 @@ private:
         }
     }
 
-    std::vector<std::vector<float>> CalculateDistances(std::vector<std::vector<float>> coordinates){
+    std::vector<std::vector<float>> CalculateDistances(std::vector<std::vector<int>> coordinates){
 
         std::vector<std::vector<float>> distances;
 
@@ -73,7 +74,7 @@ private:
 
     
 
-    void PublishDistances(std::vector<std::vector<float>> coordinates){
+    void PublishDistances(std::vector<std::vector<int>> coordinates){
 
         std::vector<std::vector<float>> distances = CalculateDistances(coordinates);
 
@@ -108,7 +109,7 @@ private:
     }
 
     rclcpp::Publisher<std_msgs::msg::Float32MultiArray>::SharedPtr publisher_;
-    rclcpp::Subscription<std_msgs::msg::Float32MultiArray>::SharedPtr subscription_;
+    rclcpp::Subscription<std_msgs::msg::Int32MultiArray>::SharedPtr subscription_;
 };
 
 int main(int argc, char **argv)
